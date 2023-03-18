@@ -10,10 +10,12 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
+import { CommissioningReportFormComponent } from './commissioning-report-form/commissioning-report-form.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CommissioningReportFormComponent
   ],
   imports: [
     BrowserModule,

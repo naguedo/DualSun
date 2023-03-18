@@ -1,0 +1,201 @@
+<div class="container">
+  <div class="card p-3 my-5 shadow-lg" style="background: rgba(255,255,255,0.9);border: 3px solid white; border-radius: 24px;">
+    <div class="card-body">
+      <div *ngIf="sended" class="text-center">
+        <h1 class="text-success">Success!</h1>
+        <p class="h5">Commissioning sended successfully</p>
+        <button class="btn btn-primary mt-4" onclick="location.reload();">
+          Create new
+        </button>
+      </div>
+      <div *ngIf="!sended">
+        <div class="text-center mb-3">
+          <img [src]="logoUrl" alt="DualSun logo" />
+        </div>
+        <h1 class="card-title text-center">Commissioning Report</h1>
+
+        <div *ngIf="error" class="alert alert-danger text-center" role="alert">
+          Unknown error occured!
+        </div>
+
+        <form [formGroup]="commissioningReportForm" (ngSubmit)="onSubmit()" (input)="clearForm()">
+          <fieldset class="mt-5 row">
+            <legend class="text-center mb-4">Company</legend>
+
+            <div class="form-group col-md-6">
+              <label for="companyName">Company Name</label>
+              <input type="text" formControlName="company_name" class="form-control" id="companyName" placeholder="Enter Company Name" [ngClass]="{'is-invalid': f.company_name.errors}">
+              <div *ngIf="f.company_name.errors" class="text-danger">
+                <div *ngIf="f.company_name.errors?.apiError">
+                  <ul class="list-unstyled">
+                    <li *ngFor="let error of f.company_name.errors.apiError">{{ error }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="siren">SIREN</label>
+              <input type="text" maxlength="9" formControlName="siren" class="form-control" id="siren" placeholder="Enter SIREN" [ngClass]="{'is-invalid': f.siren.errors}">
+              <div *ngIf="f.siren.errors" class="invalid-feedback">
+                <div *ngIf="f.siren.errors?.apiError">
+                  <ul class="list-unstyled">
+                    <li *ngFor="let error of f.siren.errors.apiError">{{ error }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="mt-5 row">
+            <legend class="text-center">Customer</legend>
+
+            <div class="form-group col-md-6">
+              <label for="name">Name</label>
+              <input type="text" formControlName="name" class="form-control" id="name" placeholder="Enter Name" [ngClass]="{'is-invalid': f.name.errors}">
+              <div *ngIf="f.name.errors" class="text-danger">
+                <div *ngIf="f.name.errors?.apiError">
+                  <ul class="list-unstyled">
+                    <li *ngFor="let error of f.name.errors.apiError">{{ error }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="email">Email</label>
+              <input type="email" formControlName="email" class="form-control" id="email" placeholder="Enter Email" [ngClass]="{'is-invalid': f.email.errors}">
+              <div *ngIf="f.email.errors" class="text-danger">
+                <div *ngIf="f.email.errors?.apiError">
+                  <ul class="list-unstyled">
+                    <li *ngFor="let error of f.email.errors.apiError">{{ error }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="phone">Phone</label>
+              <input type="text" formControlName="phone" class="form-control" id="phone" placeholder="Enter Phone" [ngClass]="{'is-invalid': f.phone.errors}">
+              <div *ngIf="f.phone.errors" class="text-danger">
+                <div *ngIf="f.phone.errors?.apiError">
+                  <ul class="list-unstyled">
+                    <li *ngFor="let error of f.phone.errors.apiError">{{ error }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-8">
+              <label for="street">Street</label>
+              <input type="text" formControlName="street" class="form-control" id="street" placeholder="Enter Street" [ngClass]="{'is-invalid': f.street.errors}">
+              <div *ngIf="f.street.errors" class="text-danger">
+                <div *ngIf="f.street.errors?.apiError">
+                  <ul class="list-unstyled">
+                    <li *ngFor="let error of f.street.errors.apiError">{{ error }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="city">City</label>
+              <input type="text" formControlName="city" class="form-control" id="city" placeholder="Enter City" [ngClass]="{'is-invalid': f.city.errors}">
+              <div *ngIf="f.city.errors" class="text-danger">
+                <div *ngIf="f.city.errors?.apiError">
+                  <ul class="list-unstyled">
+                    <li *ngFor="let error of f.city.errors.apiError">{{ error }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="zip">Zip</label>
+              <input type="text" formControlName="zip" class="form-control" id="zip" placeholder="Enter zip" [ngClass]="{'is-invalid': f.zip.errors}">
+              <div *ngIf="f.zip.errors" class="text-danger">
+                <div *ngIf="f.zip.errors?.apiError">
+                  <ul class="list-unstyled">
+                    <li *ngFor="let error of f.zip.errors.apiError">{{ error }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="mt-5 row">
+            <legend class="text-center mb-4">Installation's details</legend>
+
+            <div class="form-group col-md-12">
+              <select class="form-control">
+                <option *ngFor="let opt of options" [value]="opt.id">{{ opt.name }}</option>
+              </select>
+              <div *ngIf="f.option.errors" class="text-danger">
+                <div *ngIf="f.option.errors?.apiError">
+                  <ul class="list-unstyled">
+                    <li *ngFor="let error of f.option.errors.apiError">{{ error }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="installed_on">Installed On</label>
+              <input type="date" id="installed_on" formControlName="installed_on" class="form-control" />
+              <div *ngIf="f.installed_on.errors" class="text-danger">
+                <div *ngIf="f.installed_on.errors?.apiError">
+                  <ul class="list-unstyled">
+                    <li *ngFor="let error of f.installed_on.errors.apiError">{{ error }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="nb_panels">Number of Panels</label>
+              <input type="number" (change)="syncByNbPanels()" min="1" id="nb_panels" class="form-control" formControlName="nb_panels" placeholder="Enter number of panels" [ngClass]="{'is-invalid': f.nb_panels.errors}">
+              <div *ngIf="f.nb_panels.errors" class="text-danger">
+                <div *ngIf="f.nb_panels.errors?.apiError">
+                  <ul class="list-unstyled">
+                    <li *ngFor="let error of f.nb_panels.errors.apiError">{{ error }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div formArrayName="panels_attributes" class="col-md-12">
+              <div *ngFor="let panel of panelArray.controls; let i = index" [formGroupName]="i">
+                <div class="form-group">
+                  <label for="identifier_{{i}}">Panel {{i+1}}</label>
+                  <input id="identifier_{{i}}" formControlName="identifier" maxlength="6" type="text" class="form-control" [ngClass]="{'is-invalid': submitted && !panel.valid}" placeholder="Enter ID panel {{i+1}}">
+                  <div class="invalid-feedback" *ngIf="submitted && !panel.valid">
+                    Identifier is required.
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="f.panels_attributes.errors?.apiError" class="mb-2">
+                <ul class="list-unstyled">
+                  <li *ngFor="let error of f.panels_attributes.errors?.apiError" class="text-danger">
+                    {{ error }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="form-group text-center">
+            <button class="btn btn-primary my-5 text" [disabled]="submitting" type="submit">
+              <span *ngIf="submitting" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+              <span *ngIf="submitting" class="visually-hidden">Loading...</span>
+              <span *ngIf="!submitting">Create</span>
+            </button>
+          </div>
+        </form>
+
+        <div class="card-footer text-muted text-center mt-3" style="background: none">
+          DualSun, +33 4 13 41 53 70, <a href="mailto:contact@dualsun.fr">contact@dualsun.fr</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
